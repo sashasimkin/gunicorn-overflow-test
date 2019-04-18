@@ -16,13 +16,14 @@ logger.propagate = False
 
 
 def app(environ, start_response):
-    logger.info('Entered app')
+    rq_path = environ['PATH_INFO']
+    logger.info('Entered app on %s', rq_path)
     data = b"Hello, World!\n"
     start_response("200 OK", [
         ("Content-Type", "text/plain"),
         ("Content-Length", str(len(data)))
     ])
     # Intentionally lower than nginx timeout, so few requests can complete
-    time.sleep(10)
-    logger.info('Gonna return the response from app')
+    time.sleep(2)
+    logger.info('Gonna return the response from app on %s', rq_path)
     return iter([data])
